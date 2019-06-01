@@ -35,13 +35,13 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span>状态良好</span>
+              <span :style="(headerData['用户服务'].point <= 60 && 'color: #ff6844') || (headerData['用户服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['用户服务'].msg}}</span>
               <div>用户服务</div>
             </div>
           </div>
 
           <div class="header-data_bar">
-            <div :style="'width:' + user + '%'"></div>
+            <div :style="'width:' + headerData['用户服务'].point + '%'"></div>
           </div>
         </div>
 
@@ -76,13 +76,13 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span>状态良好</span>
-              <div>SSO 服务</div>
+              <span :style="(headerData['认证服务'].point <= 60 && 'color: #ff6844') || (headerData['认证服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['认证服务'].msg}}</span>
+              <div>认证服务</div>
             </div>
           </div>
 
           <div class="header-data_bar">
-            <div :style="'width:' + sso + '%'"></div>
+            <div :style="'width:' + headerData['认证服务'].point + '%'"></div>
           </div>
         </div>
 
@@ -109,13 +109,13 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span>状态良好</span>
+              <span :style="(headerData['邮件服务'].point <= 60 && 'color: #ff6844') || (headerData['邮件服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['邮件服务'].msg}}</span>
               <div>邮件服务</div>
             </div>
           </div>
 
           <div class="header-data_bar">
-            <div :style="'width:' + email + '%'"></div>
+            <div :style="'width:' + headerData['邮件服务'].point + '%'"></div>
           </div>
         </div>
 
@@ -140,13 +140,13 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span>状态良好</span>
+              <span :style="(headerData['支付服务'].point <= 60 && 'color: #ff6844') || (headerData['支付服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['支付服务'].msg}}</span>
               <div>支付服务</div>
             </div>
           </div>
 
           <div class="header-data_bar">
-            <div :style="'width:' + pay + '%'"></div>
+            <div :style="'width:' + headerData['支付服务'].point + '%'"></div>
           </div>
         </div>
       </div>
@@ -154,6 +154,10 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+const req = new axios.create({
+  baseURL: "https://status-api.authing.cn/authing/"
+})
 export default {
   name: "headerPage",
   data() {
@@ -161,10 +165,7 @@ export default {
       iconWidth: 81,
       screenWidth: document.body.clientWidth,
 
-      user: 0,
-      sso: 0,
-      email: 0,
-      pay: 0
+      headerData: {}
     };
   },
   props: {
@@ -174,6 +175,9 @@ export default {
     }
   },
   mounted() {
+    req.get('now').then(res => {
+      this.headerData = res.data;
+    })
     const that = this;
     window.onresize = () => {
       return (() => {
@@ -181,12 +185,12 @@ export default {
         that.screenWidth = window.screenWidth;
       })();
     };
-    setTimeout(() => {
-      this.user = 100;
-      this.sso = 80;
-      this.email = 60;
-      this.pay = 80;
-    }, 400);
+    // setTimeout(() => {
+    //   this.user = 100;
+    //   this.sso = 80;
+    //   this.email = 60;
+    //   this.pay = 80;
+    // }, 400);
   },
   watch: {
     screenWidth: function(val) {

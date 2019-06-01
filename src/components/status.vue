@@ -22,6 +22,10 @@
 
 <script>
 import headerPage from "./header.vue";
+import axios from "axios";
+const req = new axios.create({
+  baseURL: "https://status-api.authing.cn/authing/"
+})
 export default {
   name: "statusPage",
   components: {
@@ -72,32 +76,36 @@ export default {
 
     getFullYearData() {
       //准备测试数据
-      let year = new Date().getFullYear();
-      let array = [];
-      for (var i = 0; i < 12; i++) {
-        let day = year + "-" + (i + 1) + "-1";
-        let emptyDay = this.getWeek(day);
-        if (new Date().getMonth() >= i) {
-          //月份不得超过当前月，不然没意义嗷
-          array.push({
-            month: i + 1,
-            days: this.getDayByMonth(year, i + 1),
-            emptyDay: emptyDay,
-            data: this.getRandomData(
-              this.getDayByMonth(year, i + 1),
-              emptyDay * 1,
-              year + '-' + (i + 1)
-            )
-          });
-        }
-      }
-      array.reverse();
-      if (array.length > 8) {
-        //只显示前 8 个月
-        array = array.slice(0, 7);
-      }
-      this.hotData = array;
-      console.log(array);
+      // let year = new Date().getFullYear();
+      // let array = [];
+      // for (var i = 0; i < 12; i++) {
+      //   let day = year + "-" + (i + 1) + "-1";
+      //   let emptyDay = this.getWeek(day);
+      //   if (new Date().getMonth() >= i) {
+      //     //月份不得超过当前月，不然没意义嗷
+      //     array.push({
+      //       month: i + 1,
+      //       days: this.getDayByMonth(year, i + 1),
+      //       emptyDay: emptyDay,
+      //       data: this.getRandomData(
+      //         this.getDayByMonth(year, i + 1),
+      //         emptyDay * 1,
+      //         year + '-' + (i + 1)
+      //       )
+      //     });
+      //   }
+      // }
+      // array.reverse();
+      // if (array.length > 8) {
+      //   //只显示前 8 个月
+      //   array = array.slice(0, 7);
+      // }
+      // this.hotData = array;
+      // console.log(array);
+      req.get('status').then(e => {
+        console.log(e);
+        this.hotData = e.data;
+      })
     }
   }
 };
@@ -131,6 +139,11 @@ export default {
   margin-right: 4px;
   margin-bottom: 4px;
   border-radius: 2px;
+  transition: all .2s;
+}
+
+.hotItem:hover {
+  opacity: 0.6;
 }
 
 .tipsBar {
