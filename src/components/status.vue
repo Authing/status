@@ -103,8 +103,8 @@ export default {
       // this.hotData = array;
       // console.log(array);
       req.get('status').then(e => {
-        console.log(e);
         this.hotData = e.data;
+        console.log(e.data)
       })
     }
   }

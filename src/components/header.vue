@@ -35,7 +35,9 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span :style="(headerData['用户服务'].point <= 60 && 'color: #ff6844') || (headerData['用户服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['用户服务'].msg}}</span>
+              <span
+                :style="(headerData['用户服务'].point <= 60 && 'color: #ff6844') || (headerData['用户服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'"
+              >{{headerData['用户服务'].msg}}</span>
               <div>用户服务</div>
             </div>
           </div>
@@ -76,7 +78,9 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span :style="(headerData['认证服务'].point <= 60 && 'color: #ff6844') || (headerData['认证服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['认证服务'].msg}}</span>
+              <span
+                :style="(headerData['认证服务'].point <= 60 && 'color: #ff6844') || (headerData['认证服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'"
+              >{{headerData['认证服务'].msg}}</span>
               <div>认证服务</div>
             </div>
           </div>
@@ -109,8 +113,10 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span :style="(headerData['邮件服务'].point <= 60 && 'color: #ff6844') || (headerData['邮件服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['邮件服务'].msg}}</span>
-              <div>邮件服务</div>
+              <span
+                :style="(headerData['邮件服务'].point <= 60 && 'color: #ff6844') || (headerData['邮件服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'"
+              >{{headerData['邮件服务'].msg}}</span>
+              <div>消息服务</div>
             </div>
           </div>
 
@@ -140,8 +146,10 @@
               ></path>
             </svg>
             <div class="tipsBar">
-              <span :style="(headerData['支付服务'].point <= 60 && 'color: #ff6844') || (headerData['支付服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'">{{headerData['支付服务'].msg}}</span>
-              <div>支付服务</div>
+              <span
+                :style="(headerData['支付服务'].point <= 60 && 'color: #ff6844') || (headerData['支付服务'].point <= 90 && 'color: #ffbf33') || 'color: #7ed321'"
+              >{{headerData['支付服务'].msg}}</span>
+              <div>计费服务</div>
             </div>
           </div>
 
@@ -157,7 +165,7 @@
 import axios from "axios";
 const req = new axios.create({
   baseURL: "https://status-api.authing.cn/authing/"
-})
+});
 export default {
   name: "headerPage",
   data() {
@@ -165,7 +173,20 @@ export default {
       iconWidth: 81,
       screenWidth: document.body.clientWidth,
 
-      headerData: {}
+      headerData: {
+        "用户服务": {
+          point: 100,
+        },
+        "邮件服务": {
+          point: 100
+        },
+        "支付服务": {
+          point: 100
+        },
+        "认证服务": {
+          point: 100
+        }
+      }
     };
   },
   props: {
@@ -175,9 +196,9 @@ export default {
     }
   },
   mounted() {
-    req.get('now').then(res => {
+    req.get("now").then(res => {
       this.headerData = res.data;
-    })
+    });
     const that = this;
     window.onresize = () => {
       return (() => {
@@ -407,7 +428,7 @@ export default {
   }
 
   .header-right {
-      font-size: 12px;
+    font-size: 12px;
   }
 
   .header-now_info {
